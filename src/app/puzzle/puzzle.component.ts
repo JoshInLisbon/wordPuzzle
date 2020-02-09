@@ -7,7 +7,7 @@ import * as _ from 'lodash';
   styleUrls: ['./puzzle.component.less']
 })
 export class PuzzleComponent implements OnInit {
-  words = ["quit", "free", "health", "save", "goal"]
+  words = ["quit", "free", "health", "save", "eeeeeeee"]
   n = 8
 
   constructor() {
@@ -25,15 +25,16 @@ export class PuzzleComponent implements OnInit {
         let tempMap = [];
         let flag = false;
         letters.some(function (letter, i) {
-          console.log(`num: ${start + i}, letter: ${letter}`)
+          let num = start + i;
+          console.log(`num: ${num}, letter: ${letter}`)
           map.flat(Infinity).some(function(square) {
-            if(start + i == square.num && letter != square.letter) {
+            if(num == square.num && letter != square.letter) {
               directions[Math.floor(Math.random() * directions.length)](word, n);
               flag = true;
               return true;
             }
           });
-          tempMap.push({num: start + i, letter: letter});
+          tempMap.push({num: num, letter: letter});
           return flag;
         });
         console.log(flag);
@@ -54,15 +55,16 @@ export class PuzzleComponent implements OnInit {
         let tempMap = [];
         let flag = false;
         letters.some(function (letter, i) {
-          console.log(`num: ${start + i + n * i}, letter: ${letter}`)
+          let num = start + i + n * i;
+          console.log(`num: ${num}, letter: ${letter}`)
           map.flat(Infinity).some(function(square) {
-            if(start + i == square.num && letter != square.letter) {
+            if(num == square.num && letter != square.letter) {
               directions[Math.floor(Math.random() * directions.length)](word, n);
               flag = true;
               return true;     
             }
           });
-          tempMap.push({num: start + i + n * i, letter: letter});
+          tempMap.push({num: num, letter: letter});
           return flag;
         });
         console.log(flag);
@@ -83,15 +85,16 @@ export class PuzzleComponent implements OnInit {
         let tempMap = [];
         let flag = false;
         letters.some(function (letter, i) {
-          console.log(`num: ${start + i - n * i}, letter: ${letter}`)
+          let num = start + i - n * i;
+          console.log(`num: ${num}, letter: ${letter}`)
           map.flat(Infinity).some(function(square) {
-            if(start + i == square.num && letter != square.letter) {
+            if(num == square.num && letter != square.letter) {
               directions[Math.floor(Math.random() * directions.length)](word, n);
               flag = true;
               return true; 
             }
           });
-          tempMap.push({num: start + i - n * i, letter: letter});
+          tempMap.push({num: num, letter: letter});
           return flag;
         });
         console.log(flag);
@@ -112,15 +115,46 @@ export class PuzzleComponent implements OnInit {
         let tempMap = [];
         let flag = false;
         letters.some(function (letter, i) {
-          console.log(`num: ${start + n * i}, letter: ${letter}`)
+          let num = start + n * i;
+          console.log(`num: ${num}, letter: ${letter}`)
           map.flat(Infinity).some(function(square) {
-            if(start + i == square.num && letter != square.letter) {
+            if(num == square.num && letter != square.letter) {
               directions[Math.floor(Math.random() * directions.length)](word, n);
               flag = true;
               return true;
             }
           });
-          tempMap.push({num: start + n * i, letter: letter});
+          tempMap.push({num: num, letter: letter});
+          return flag;
+        });
+        console.log(flag);
+        if (flag == false) {
+          map.push(tempMap);
+          console.log(map.flat(Infinity));
+        }
+      }
+    )
+
+    // Up
+    directions.push(
+      function up(word, n) {
+        console.log(`up: ${word}`);
+        let uSS = upStartSpace(word, n);
+        let start = uSS[Math.floor(Math.random() * uSS.length)];
+        let letters = word.split('');
+        let tempMap = [];
+        let flag = false;
+        letters.some(function (letter, i) {
+          let num = start - n * i;
+          console.log(`num: ${num}, letter: ${letter}`)
+          map.flat(Infinity).some(function(square) {
+            if(num == square.num && letter != square.letter) {
+              directions[Math.floor(Math.random() * directions.length)](word, n);
+              flag = true;
+              return true;
+            }
+          });
+          tempMap.push({num: num, letter: letter});
           return flag;
         });
         console.log(flag);
@@ -224,6 +258,21 @@ export class PuzzleComponent implements OnInit {
       return startSpace;
     }
 
+    function upStartSpace(word, n) {
+      let startSpace = [];
+      let colSpace = n - word.length + 1;
+      let csCount = 0;
+      _.times(colSpace, function() {
+        let nCount = 1;
+        _.times(n, function() {
+          startSpace.push(n * n - (n - (nCount - n * csCount)))
+          nCount += 1;
+        });
+        csCount += 1;
+      });
+      return startSpace;
+    }
+
     layout(this.words, this.n)
     console.log(map.flat(Infinity));
 
@@ -233,7 +282,9 @@ export class PuzzleComponent implements OnInit {
     
   }
 
-  
+  josh(thing) {
+    console.log(thing);
+  }
   
 
 }
