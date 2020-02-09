@@ -7,14 +7,21 @@ import * as _ from 'lodash';
   styleUrls: ['./puzzle.component.less']
 })
 export class PuzzleComponent implements OnInit {
-  words = ["quit", "free", "health", "save", "eeeeeeee"]
+  words = ["quit", "free", "yes", "happy", "sleep"]
   n = 8
 
-  constructor() {
+  constructor() {}
 
-    const map = [];
+  ngOnInit() {
+
+    let n = this.n
+    let words = this.words
+    let gridPositions = Array.from({length: n * n},(v,k)=>k+1);
+    let map = [];
+
+    // Directions & Resulting Positions
+
     const directions = [];
-
     // Horizontal
     directions.push(
       function horizontal(word, n) {
@@ -26,12 +33,13 @@ export class PuzzleComponent implements OnInit {
         let flag = false;
         letters.some(function (letter, i) {
           let num = start + i;
+          // pushHealthyCoordinatesToTempMap(flag, num, letter, word, tempMap);
           console.log(`num: ${num}, letter: ${letter}`)
           map.flat(Infinity).some(function(square) {
-            if(num == square.num && letter != square.letter) {
+            if (num == square.num && letter != square.letter) {
               directions[Math.floor(Math.random() * directions.length)](word, n);
               flag = true;
-              return true;
+              return true;     
             }
           });
           tempMap.push({num: num, letter: letter});
@@ -39,6 +47,9 @@ export class PuzzleComponent implements OnInit {
         });
         console.log(flag);
         if (flag == false) {
+          tempMap.forEach(function (square) {
+            delete gridPositions[square.num - 1];
+          });
           map.push(tempMap);
           console.log(map.flat(Infinity));
         }
@@ -58,7 +69,7 @@ export class PuzzleComponent implements OnInit {
           let num = start + i + n * i;
           console.log(`num: ${num}, letter: ${letter}`)
           map.flat(Infinity).some(function(square) {
-            if(num == square.num && letter != square.letter) {
+            if (num == square.num && letter != square.letter) {
               directions[Math.floor(Math.random() * directions.length)](word, n);
               flag = true;
               return true;     
@@ -69,6 +80,9 @@ export class PuzzleComponent implements OnInit {
         });
         console.log(flag);
         if (flag == false) {
+          tempMap.forEach(function (square) {
+            delete gridPositions[square.num - 1];
+          });
           map.push(tempMap);
           console.log(map.flat(Infinity));
         }
@@ -88,7 +102,7 @@ export class PuzzleComponent implements OnInit {
           let num = start + i - n * i;
           console.log(`num: ${num}, letter: ${letter}`)
           map.flat(Infinity).some(function(square) {
-            if(num == square.num && letter != square.letter) {
+            if (num == square.num && letter != square.letter) {
               directions[Math.floor(Math.random() * directions.length)](word, n);
               flag = true;
               return true; 
@@ -99,6 +113,9 @@ export class PuzzleComponent implements OnInit {
         });
         console.log(flag);
         if (flag == false) {
+          tempMap.forEach(function (square) {
+            delete gridPositions[square.num - 1];
+          });
           map.push(tempMap);
           console.log(map.flat(Infinity));
         }
@@ -118,7 +135,7 @@ export class PuzzleComponent implements OnInit {
           let num = start + n * i;
           console.log(`num: ${num}, letter: ${letter}`)
           map.flat(Infinity).some(function(square) {
-            if(num == square.num && letter != square.letter) {
+            if (num == square.num && letter != square.letter) {
               directions[Math.floor(Math.random() * directions.length)](word, n);
               flag = true;
               return true;
@@ -129,6 +146,9 @@ export class PuzzleComponent implements OnInit {
         });
         console.log(flag);
         if (flag == false) {
+          tempMap.forEach(function (square) {
+            delete gridPositions[square.num - 1];
+          });
           map.push(tempMap);
           console.log(map.flat(Infinity));
         }
@@ -148,7 +168,7 @@ export class PuzzleComponent implements OnInit {
           let num = start - n * i;
           console.log(`num: ${num}, letter: ${letter}`)
           map.flat(Infinity).some(function(square) {
-            if(num == square.num && letter != square.letter) {
+            if (num == square.num && letter != square.letter) {
               directions[Math.floor(Math.random() * directions.length)](word, n);
               flag = true;
               return true;
@@ -159,43 +179,15 @@ export class PuzzleComponent implements OnInit {
         });
         console.log(flag);
         if (flag == false) {
+          tempMap.forEach(function (square) {
+            delete gridPositions[square.num - 1];
+          });
           map.push(tempMap);
           console.log(map.flat(Infinity));
         }
       }
     )
     
-    let grid = Math.pow(this.n, 2)
-    
-    let n = this.n
-    let words = this.words
-    let rhEdge = [];
-    let rhCount = 1;
-    _.times(this.n, function() {
-      rhEdge.push(n * rhCount);
-      rhCount += 1;
-    });
-
-    let baseEdge = [];
-    let baseCount = n - 1;
-    _.times(this.n, function() {
-      baseEdge.push(n * n - baseCount);
-      baseCount -= 1;
-    });
-
-    console.log(rhEdge);
-    console.log(baseEdge);
-    function layout(words, n) {
-      words.forEach(function (word, i) {
-        // set location
-  
-        // set direction
-        console.log(i)
-        directions[Math.floor(Math.random() * directions.length)](word, n);
-      });
-    }
-
-
     // Only Let Words Spawn In Acceptable Squares
     function horizontalStartSpace(word, n) {
       let startSpace = [];
@@ -273,18 +265,47 @@ export class PuzzleComponent implements OnInit {
       return startSpace;
     }
 
-    layout(this.words, this.n)
-    console.log(map.flat(Infinity));
-
-  }
-
-  ngOnInit() {
+    // Build Layout
     
+    function layout(words, n) {
+      // Set grid position of letters in words
+      words.forEach(function (word, i) {
+        console.log(`*** NEW WORD: ${word} ***`);
+        directions[Math.floor(Math.random() * directions.length)](word, n);
+      });
+      // Remove duplicates from map (where two words cross on the same letter)
+      map = map.flat(Infinity);
+      map = arrayUnique(map, 'num');
+      // Randomly allocate rest of grid a random letter
+      gridPositions.forEach(function (num) {
+        let randLetter = String.fromCharCode(97+Math.floor(Math.random() * 26));
+        map.push({num: num, letter: randLetter});
+      });
+
+      console.table(map);
+    }
+
+    // Add onlyUnique function for arrays
+    function arrayUnique(arr, uniqueKey) {
+      const flagList = []
+      return arr.filter(function(item) {
+        if (flagList.indexOf(item[uniqueKey]) === -1) {
+          flagList.push(item[uniqueKey])
+          return true
+        }
+      })
+    }
+
+    layout(words, n)
+    this.speak();
   }
 
   josh(thing) {
     console.log(thing);
   }
   
-
+  speak() {
+    console.log("SPEAK!");
+  }
+  
 }
