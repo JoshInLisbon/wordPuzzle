@@ -12,25 +12,27 @@ export class PuzzleComponent implements OnInit {
 
   constructor() {
 
-    const map = []
-    const directions = []
+    const map = [];
+    const directions = [];
 
     directions.push(
       function horizontal(word, n) {
-        let start = Math.floor(Math.random() * (grid + 1));
-        if (start + word.length > )
+        let hdSS = horizAndDiagStartSpace(n, word)
+        let start = hdSS[Math.floor(Math.random() * hdSS.length)];
         let letters = word.split('');
         let tempMap = []
         letters.forEach(function (letter, i) {
-          if ((start + i) % n === 0) {
-            horizontal(word, n);
-          }
           console.log(`num: ${start + i}, letter: ${letter}`)
-          tempMap.push({num: start + i, letter: letter})
+          map.forEach(function(square) {
+            if(start + i == square.num && letter != square.letter) {
+              layout(this.words, this.n);
+            }
+          });
+          tempMap.push({num: start + i, letter: letter});
         });
 
-        
-       console.log(`horizontal ${word}`);
+        map.push(tempMap);
+        console.log(`horizontal ${word}`);
       }
     )
     directions.push(
@@ -40,11 +42,24 @@ export class PuzzleComponent implements OnInit {
     )
     
     let grid = Math.pow(this.n, 2)
-    let rhEdge = []
+    
+    let n = this.n
+    let rhEdge = [];
+    let rhCount = 1;
     _.times(this.n, function() {
-      rhEdge.push();
+      rhEdge.push(n * rhCount);
+      rhCount += 1;
     });
 
+    let baseEdge = [];
+    let baseCount = n - 1;
+    _.times(this.n, function() {
+      baseEdge.push(n * n - baseCount);
+      baseCount -= 1;
+    });
+
+    console.log(rhEdge);
+    console.log(baseEdge);
     function layout(words, n) {
       words.forEach(function (word, i) {
         // set location
@@ -55,8 +70,26 @@ export class PuzzleComponent implements OnInit {
       });
     }
 
+    function horizAndDiagStartSpace(n, word) {
+      let startSpace = [];
+      let rowSpace = n - word.length + 1;
+
+      let nCount = 0;
+      _.times(n, function() {
+        let rsCount = 1;
+        _.times(rowSpace, function() {
+          startSpace.push(rsCount + n * nCount);
+          rsCount += 1;
+        });
+        nCount += 1;
+      });
+      console.log(startSpace);
+      return startSpace;
+    }
+
     layout(this.words, this.n)
     console.log(map.flat(Infinity));
+
   }
 
   ngOnInit() {
