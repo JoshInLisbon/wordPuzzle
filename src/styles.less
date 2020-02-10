@@ -1,5 +1,25 @@
 /* You can add global styles to this file, and also import other style files */
+@blue: #4ca1e8;
+
 body {
-    background-color: #4ca1e8;
+    background-color: @blue;
     font-family: 'Nunito', sans-serif;
+}
+
+button {
+    font-size: 1.2rem;
+    line-height: 1.25em;
+    color: #fff;
+}
+
+.sign-methods-btn {
+    border-radius: 4px;
+    padding: 8px;
+    display: block;
+    margin-right: 8px;
+    border: none;
+    &:hover{
+        cursor: pointer;
+        opacity: 0.8;
+    }
 }
