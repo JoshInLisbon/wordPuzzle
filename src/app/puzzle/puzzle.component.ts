@@ -7,15 +7,13 @@ import * as _ from 'lodash';
   styleUrls: ['./puzzle.component.less']
 })
 export class PuzzleComponent implements OnInit {
-  words = ["quit", "free", "yes", "happy", "sleep"]
-  n = 8
 
   constructor() {}
 
   ngOnInit() {
 
-    let n = this.n
-    let words = this.words
+    let n = 8;
+    let words = ["stop", "healthy", "happy", "save", "breath"];
     let gridPositions = Array.from({length: n * n},(v,k)=>k+1);
     let map = [];
 
@@ -282,7 +280,7 @@ export class PuzzleComponent implements OnInit {
         map.push({num: num, letter: randLetter});
       });
 
-      console.table(map);
+      return map
     }
 
     // Add onlyUnique function for arrays
@@ -296,16 +294,8 @@ export class PuzzleComponent implements OnInit {
       })
     }
 
-    layout(words, n)
-    this.speak();
+    layout(words, n);
+    console.table(map);
   }
 
-  josh(thing) {
-    console.log(thing);
-  }
-  
-  speak() {
-    console.log("SPEAK!");
-  }
-  
 }
