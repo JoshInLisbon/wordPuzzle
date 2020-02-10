@@ -1,4 +1,7 @@
-div {
+@purple: #714ce8;
+@green: #4ce892;
+
+.container {
     max-width: 600px;
     margin: 40px auto;
     color: #fff;
@@ -17,11 +20,11 @@ p {
 
 strong {
     font-weight: bold;
-    color: #714ce8;
+    color: @purple;
 }
 
 .green {
-    color: #4ce892;
+    color: @green;
 }
 
 code {
@@ -37,4 +40,26 @@ code {
     span {
         color: #787878;
     }
+}
+
+.sign-methods-btn {
+    border-radius: 4px;
+    padding: 8px;
+    display: block;
+    margin-right: 8px;
+    border: none;
+    &:hover{
+        cursor: pointer;
+        opacity: 0.8;
+    }
+}
+
+.logout-col {
+    background-color: @purple;
+}
+
+button {
+    font-size: 1.2rem;
+    line-height: 1.25em;
+    color: #fff;
 }

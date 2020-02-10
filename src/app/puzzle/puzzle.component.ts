@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import * as _ from 'lodash';
+import { Router } from "@angular/router";
+import { Auth } from "aws-amplify";
 
 @Component({
   selector: 'app-puzzle',
@@ -8,7 +10,7 @@ import * as _ from 'lodash';
 })
 export class PuzzleComponent implements OnInit {
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnInit() {
 
@@ -279,7 +281,6 @@ export class PuzzleComponent implements OnInit {
         let randLetter = String.fromCharCode(97+Math.floor(Math.random() * 26));
         map.push({num: num, letter: randLetter});
       });
-
       return map
     }
 
@@ -296,6 +297,16 @@ export class PuzzleComponent implements OnInit {
 
     layout(words, n);
     console.table(map);
+  }
+
+  onLogOut() {
+    Auth.signOut()
+      .then(data => {
+        console.log(data);
+        console.log("You are successfully logged out");
+        this.router.navigate(["/login"]);
+      })
+      .catch(err => console.log(err));
   }
 
 }

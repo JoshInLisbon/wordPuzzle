@@ -1,0 +1,20 @@
+{
+    "dev": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-wordpuzzle-dev-14405-authRole",
+            "UnauthRoleArn": "arn:aws:iam::102528033004:role/amplify-wordpuzzle-dev-14405-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::102528033004:role/amplify-wordpuzzle-dev-14405-authRole",
+            "Region": "eu-central-1",
+            "DeploymentBucketName": "amplify-wordpuzzle-dev-14405-deployment",
+            "UnauthRoleName": "amplify-wordpuzzle-dev-14405-unauthRole",
+            "StackName": "amplify-wordpuzzle-dev-14405",
+            "StackId": "arn:aws:cloudformation:eu-central-1:102528033004:stack/amplify-wordpuzzle-dev-14405/d4020d20-4ba6-11ea-94ce-062c87541f2a",
+            "AmplifyAppId": "d2scilaqltnex3"
+        },
+        "categories": {
+            "auth": {
+                "wordpuzzle5823da1c": {}
+            }
+        }
+    }
+}
