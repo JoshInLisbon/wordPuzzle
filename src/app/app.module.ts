@@ -12,7 +12,7 @@ import { PuzzleComponent } from './puzzle/puzzle.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

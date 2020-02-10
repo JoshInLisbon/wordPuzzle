@@ -1,8 +1,30 @@
-<p>puzzle works!</p>
-<ul>
-    <li *ngFor="let word of words">
-        {{ word }}
-    </li>
-</ul>
-
-<button (click)="layout(['go', 'po', 'no'], 4)">ZZZZ</button>
+<div>
+    <h1>Please Open The Console</h1>
+    <p>
+        <strong>I was not able to build the word search puzzle using Angular.</strong> 
+        However, I would like to demonstrate that, though I am not familiar with Angular, 
+        I am a competent JavaScript developer (who will pick it up rapidly with just a 
+        little bit of coaching). 
+    </p>
+    <p>
+        <strong>To do this</strong> I have written a set of JavaScript functions which 
+        returns an array objects to the console containing the grid number and letter for a word search puzzle, 
+        laying out words all directions: <strong>horizontal</strong>, <strong>up</strong>, 
+        <strong>down</strong>, <strong>upDiagonal</strong>, <strong>downDiagonal</strong>. 
+    </p>
+    <p>
+        The solution is <strong class="green">scalable</strong>, handling a grid of any <i>n*n</i> size; 
+        <strong class="green">refreshable</strong>, changing after every refresh; 
+        <strong class="green">able to handle complexity</strong>, allowing words to overlap if they share the same letter; 
+        <strong class="green">and efficient</strong>, with words only 'spawning' (and subsequently checking for 
+        conflicts with established words) in squares where they have the room to exist.
+        <strong>To play with the solution edit lines 15 and 16 in 'puzzle.component.ts'.</strong>
+    </p>
+    <code>
+        15. let n = 8;<br>
+        16. let words = ["stop", "healthy", "happy", "save", "breath"];
+    </code>
+    <p>
+        <strong>I was able to setup an Amazon Cognito User Pool</strong>, but unable to connect to the one provided in the information document. 
+    </p>
+</div>
